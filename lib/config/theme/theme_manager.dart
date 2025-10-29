@@ -28,6 +28,8 @@ class ThemeManager{
     textTheme: TextTheme(
       bodySmall: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: ColorsManager.black)
     ),
+
+   // dividerTheme: DividerThemeData(color: ColorsManager.blue,thickness: 1,endIndent: 16.w,indent: 42.w )
   );
   static final ThemeData dark=ThemeData();
 
