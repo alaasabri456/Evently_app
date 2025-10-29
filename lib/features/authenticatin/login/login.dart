@@ -1,9 +1,13 @@
 import 'package:evently/core/resources/assets_manager.dart';
 import 'package:evently/core/resources/colors_manager.dart';
 import 'package:evently/core/resources/validators.dart';
+import 'package:evently/core/ui_utils.dart';
 import 'package:evently/core/widgets/custom_elevated_button.dart';
 import 'package:evently/core/widgets/custom_text_button.dart';
 import 'package:evently/core/widgets/custom_text_form_field.dart';
+import 'package:evently/firebase/firebase_service.dart';
+import 'package:evently/models/login_request.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,6 +23,22 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool securePassword=true;
 GlobalKey<FormState> _formKey=GlobalKey<FormState>();
+late TextEditingController _emailController;
+late TextEditingController _passwordController;
+@override
+  void initState() {
+  super.initState();
+  _emailController=TextEditingController();
+  _passwordController=TextEditingController();
+
+  }
+  @override
+  void dispose() {
+  _emailController.dispose();
+  _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +52,9 @@ GlobalKey<FormState> _formKey=GlobalKey<FormState>();
               children: [
                 Image.asset(ImageAssets.logo),
                 SizedBox(height: 24.h,),
-                CustomTextFormField(validator:Validator.validateEmail,labelText: "E_mail", keyboardType: TextInputType.emailAddress,prefixIcon: Icon(Icons.email),),
+                CustomTextFormField(controller:_emailController,validator:Validator.validateEmail,labelText: "E_mail", keyboardType: TextInputType.emailAddress,prefixIcon: Icon(Icons.email),),
                 SizedBox(height: 16.h,),
-                CustomTextFormField(validator:Validator.validatePassword,labelText: "Password", keyboardType: TextInputType.visiblePassword,prefixIcon: Icon(Icons.lock),suffixIcon:IconButton(icon:securePassword? Icon(Icons.visibility_off): Icon(Icons.visibility),onPressed: _onTogglePasswordIcon,),isSecure:securePassword ,),
+                CustomTextFormField(controller:_passwordController,validator:Validator.validatePassword,labelText: "Password", keyboardType: TextInputType.visiblePassword,prefixIcon: Icon(Icons.lock),suffixIcon:IconButton(icon:securePassword? Icon(Icons.visibility_off): Icon(Icons.visibility),onPressed: _onTogglePasswordIcon,),isSecure:securePassword ,),
                 SizedBox(height: 16.h,),
                 Container(alignment:AlignmentGeometry.centerRight,child: CustomTextButton(text: "forget password ?", onTap: (){})),
                 SizedBox(height: 24.h,),
@@ -85,7 +105,23 @@ GlobalKey<FormState> _formKey=GlobalKey<FormState>();
     });
   }
 
-  void _login(){
+  Future<void> _login() async {
+
     if(_formKey.currentState?.validate()==false)return;
+    try {
+      UiUtils.showLoading(context,false);
+      UserCredential userCredential = await FirebaseService.login(LoginRequest(
+          email: _emailController.text, password: _passwordController.text));
+      UiUtils.hideDialog(context);
+      UiUtils.showToastMessage("Logged_In successfully", Colors.green);
+      Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+    } on FirebaseAuthException catch(e){
+      UiUtils.hideDialog(context);
+      UiUtils.showToastMessage(e.code, Colors.red);
+    }
+    catch(e){
+      UiUtils.hideDialog(context);
+      UiUtils.showToastMessage("failed to login", Colors.red);
+    }
   }
 }

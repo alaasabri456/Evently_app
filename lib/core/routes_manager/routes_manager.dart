@@ -2,10 +2,12 @@ import 'package:evently/features/authenticatin/login/login.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/authenticatin/register/register.dart';
+import '../../features/main_layout/main_layout.dart';
 
 class RoutesManager{
   static const String register="/register";
   static const String login="/login";
+  static const String mainLayout="/mainLayout";
   static Route? router(RouteSettings setting){
     switch(setting.name){
       case register:{
@@ -13,6 +15,9 @@ class RoutesManager{
       }
       case login:{
         return MaterialPageRoute(builder:(context) => Login(),);
+      }
+      case mainLayout:{
+        return MaterialPageRoute(builder:(context) => MainLayout(),);
       }
     }
   }

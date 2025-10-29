@@ -1,8 +1,12 @@
 import 'package:evently/core/resources/assets_manager.dart';
 import 'package:evently/core/resources/validators.dart';
 import 'package:evently/core/routes_manager/routes_manager.dart';
+import 'package:evently/core/ui_utils.dart';
 import 'package:evently/core/widgets/custom_elevated_button.dart';
 import 'package:evently/core/widgets/custom_text_button.dart';
+import 'package:evently/firebase/firebase_service.dart';
+import 'package:evently/models/register_request.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -87,9 +91,28 @@ class _RegisterState extends State<Register> {
   }
 
 
-  void _createAccount(){
+  Future<void> _createAccount() async {
+    //form is valid
     if (_formKey.currentState?.validate() == false)
       return;
+    try{
+      UiUtils.showLoading(context, false);
+      //get object from firebaseAuth
+
+      UserCredential userCredential = await  FirebaseService.register(RegisterRequest(email:_emailController.text, password:_passwordController.text));
+
+    UiUtils.showToastMessage("Successfully Registration", Colors.green);
+      UiUtils.hideDialog(context);
+      Navigator.pushReplacementNamed(context, RoutesManager.login);
+    }
+
+    on FirebaseAuthException catch(e){
+      UiUtils.hideDialog(context);
+     UiUtils.showToastMessage(e.code, Colors.red);
+    } catch (e) {
+      UiUtils.hideDialog(context);
+      UiUtils.showToastMessage("Failed to register", Colors.red);
+    }
   }
   void _onTogglePasswordIcon(){
     setState(() {

@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/resources/colors_manager.dart' ;
 
 class ThemeManager{
-  static final ThemeData light=ThemeData(scaffoldBackgroundColor: ColorsManager.whiteBlue,
+  static final ThemeData light=ThemeData(useMaterial3: false,
+    scaffoldBackgroundColor: ColorsManager.whiteBlue,
    inputDecorationTheme: InputDecorationTheme( focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: ColorsManager.gray,width: 1.w),
       borderRadius: BorderRadius.circular(16.r)),
   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: ColorsManager.blue,width: 1.w),
@@ -28,7 +29,14 @@ class ThemeManager{
     textTheme: TextTheme(
       bodySmall: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: ColorsManager.black)
     ),
-
+floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: ColorsManager.blue,  foregroundColor: ColorsManager.white,
+  shape: StadiumBorder(
+    side: BorderSide(color: ColorsManager.white,width: 4)),),
+bottomNavigationBarTheme: BottomNavigationBarThemeData( elevation: 0,
+  selectedItemColor: ColorsManager.white,
+  unselectedItemColor: ColorsManager.white,
+  backgroundColor:Colors.transparent,type: BottomNavigationBarType.fixed,),
+   bottomAppBarTheme: BottomAppBarThemeData(color:ColorsManager.blue,shape: CircularNotchedRectangle(),elevation: 16, )
    // dividerTheme: DividerThemeData(color: ColorsManager.blue,thickness: 1,endIndent: 16.w,indent: 42.w )
   );
   static final ThemeData dark=ThemeData();
