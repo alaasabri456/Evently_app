@@ -11,5 +11,6 @@ abstract class ImageAssets{
   static const String gaming="$base/gaming.png";
   static const String bookClub="$base/book_club.png";
   static const String exhibition="$base/exhibition.png";
+  static const String profile="$base/profile.png";
 
 }
