@@ -5,8 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/resources/colors_manager.dart' ;
 
 class ThemeManager{
+
   static final ThemeData light=ThemeData(useMaterial3: false,
     scaffoldBackgroundColor: ColorsManager.whiteBlue,
+   appBarTheme: AppBarTheme(backgroundColor: ColorsManager.whiteBlue,
+     foregroundColor: ColorsManager.blue,
+     centerTitle: true,
+     titleTextStyle: TextStyle(fontSize: 22.sp,fontWeight: FontWeight.w400,color: ColorsManager.blue),
+   ),
    inputDecorationTheme: InputDecorationTheme( focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: ColorsManager.gray,width: 1.w),
       borderRadius: BorderRadius.circular(16.r)),
   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: ColorsManager.blue,width: 1.w),

@@ -1,10 +1,34 @@
+import 'package:evently/core/resources/colors_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/widgets/event_item.dart';
+import '../../../models/category_model.dart';
+import '../../../models/event_model.dart';
 
 class FavouriteTab extends StatelessWidget {
   const FavouriteTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return SafeArea(
+      child: Column(
+        children: [   Padding(
+      padding:REdgeInsets.symmetric(horizontal: 16.0),
+      child: TextField(
+          decoration: InputDecoration(
+              prefixIcon:Icon(Icons.search,color: ColorsManager.blue,),
+        hintText:"search_for_event",
+        hintStyle:TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorsManager.blue),
+
+          ),
+      
+        ),),
+          Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.category[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
+          )
+          )
+        ],
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:evently/core/resources/colors_manager.dart';
+import 'package:evently/core/routes_manager/routes_manager.dart';
 import 'package:evently/features/main_layout/favourite/favourite_tab.dart';
 import 'package:evently/features/main_layout/home/home_tab.dart';
 import 'package:evently/features/main_layout/map/map_tab.dart';
@@ -43,7 +44,9 @@ class _MainLayoutState extends State<MainLayout> {
 
   FloatingActionButton _buildFloatingActionButton() {
     return FloatingActionButton(
-      onPressed: (){},child: Icon(Icons.add),);
+      onPressed: (){
+        Navigator.pushNamed(context, RoutesManager.createEvent);
+      },child: Icon(Icons.add),);
   }
 
   void _onTap(int newIndex){

@@ -12,6 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/routes_manager/routes_manager.dart';
+import 'package:google_sign_in/google_sign_in.dart' ;
+
+import 'auth_service.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -84,7 +87,13 @@ late TextEditingController _passwordController;
                       color: ColorsManager.blue,)),
                   ],),
                 SizedBox(height: 24.h,),
-                OutlinedButton(onPressed: (){}, child:
+                OutlinedButton( onPressed: ()async{
+                 var user=await AuthService.signInWithGoogle();
+                 print(user.user?.displayName);
+                 print(user.user?.email);
+                },
+
+                 child:
                 Row(mainAxisAlignment: MainAxisAlignment.center,children: [
                   Image.asset(ImageAssets.googleIcon),
                   SizedBox(width: 10.w,),
@@ -124,4 +133,7 @@ late TextEditingController _passwordController;
       UiUtils.showToastMessage("failed to login", Colors.red);
     }
   }
+
+
+
 }

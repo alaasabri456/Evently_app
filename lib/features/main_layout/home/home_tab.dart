@@ -46,12 +46,14 @@ class _HomeTabState extends State<HomeTab> {
                 ],),
                 Spacer(),
                 Row(children: [
-                  Icon(Icons.light_mode_outlined,color: ColorsManager.white,),
+                  IconButton(icon:Icon(Icons.light_mode_outlined,color: ColorsManager.white,),onPressed: (){},),
                   SizedBox(width: 10.w,),
-                  Card(color:ColorsManager.white,child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("EN",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: ColorsManager.blue),),
-                  )),
+                  InkWell(onTap: (){},
+                    child: Card(color:ColorsManager.white,child: Padding(
+                      padding: REdgeInsets.all(8.0),
+                      child: Text("EN",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: ColorsManager.blue),),
+                    )),
+                  ),
 
                 ],)
               ],),
