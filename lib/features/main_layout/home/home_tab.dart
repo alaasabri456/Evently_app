@@ -62,7 +62,8 @@ CustomTabBar(categories: CategoryModel.categoryWithAll, selectedBgColor: ColorsM
             ],),
           ),
         ),
-      Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.category[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
+      Expanded(child: ListView.builder(padding: EdgeInsets.zero,
+        itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.category[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
       )
       )
 
