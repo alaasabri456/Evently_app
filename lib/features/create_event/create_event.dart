@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/widgets/custom_text_form_field.dart';
+import '../../l10n/app_localizations.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({super.key});
@@ -19,12 +20,14 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
-  CategoryModel selectedCategory=CategoryModel.category[0];
+  late CategoryModel selectedCategory=CategoryModel.getCategory(context)[0];
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations=AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title:Text( "Create Event"),
+        title:Text(appLocalizations.create_event),
 
       ),
       body: Padding(
@@ -43,38 +46,38 @@ class _CreateEventState extends State<CreateEvent> {
                 setState(() {
 
                 });
-              },categories: CategoryModel.category, selectedBgColor: ColorsManager.blue, unselectedBgColor: Colors.transparent, selectedFgColor:ColorsManager.white , unselectedFgColor: ColorsManager.blue),
+              },categories: CategoryModel.getCategory(context), selectedBgColor: ColorsManager.blue, unselectedBgColor: Colors.transparent, selectedFgColor:ColorsManager.white , unselectedFgColor: ColorsManager.blue),
               SizedBox(height:16.h),
-              Text("Title",style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+              Text(appLocalizations.title,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
                 SizedBox(height: 8.h),
-                CustomTextFormField(labelText:"Event Title" ,keyboardType:TextInputType.text,
+                CustomTextFormField(labelText:appLocalizations.event_title,keyboardType:TextInputType.text,
           prefixIcon:Icon(Icons.edit_note),),
               SizedBox(height: 16.h),
-              Text("Description",style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+              Text(appLocalizations.description,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
               SizedBox(height: 8.h),
-              CustomTextFormField(hintText:"Event description" ,maxLiens: 4,keyboardType:TextInputType.text,),
+              CustomTextFormField(hintText:appLocalizations.event_description ,maxLiens: 4,keyboardType:TextInputType.text,),
               SizedBox(height: 16.h),
               Row(children: [Icon(Icons.calendar_month,color: ColorsManager.black,),
                 SizedBox(width: 8.w,),
-                Text("Event Date",style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+                Text(appLocalizations.event_date,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
                 Spacer(),
-                CustomTextButton(text: "Choose Date", onTap: (){
+                CustomTextButton(text: appLocalizations.choose_date, onTap: (){
                   showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now().add(Duration(days: 365)));
                 })
               ],),
               SizedBox(height: 16.h),
               Row(children: [Icon(Icons.timer_outlined,color: ColorsManager.black,),
                 SizedBox(width: 8.w,),
-                Text("Event Time",style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+                Text(appLocalizations.event_time,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
                 Spacer(),
-                CustomTextButton(text: "Choose Time", onTap: (){
+                CustomTextButton(text:appLocalizations.choose_time, onTap: (){
                   showTimePicker(context: context, initialTime: TimeOfDay.now());
                 })
               ],),
               SizedBox(height: 16.h),
-              Text("Location",style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+              Text(appLocalizations.location,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
               SizedBox(height: 8.h),
-              CustomElevatedButton(onPressed: (){}, text: "Add Event")
+              CustomElevatedButton(onPressed: (){}, text: appLocalizations.add_event)
 
             ],
           ),

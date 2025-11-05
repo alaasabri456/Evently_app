@@ -6,6 +6,7 @@ import 'package:evently/core/widgets/custom_elevated_button.dart';
 import 'package:evently/core/widgets/custom_text_button.dart';
 import 'package:evently/core/widgets/custom_text_form_field.dart';
 import 'package:evently/firebase/firebase_service.dart';
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/login_request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ late TextEditingController _passwordController;
 
   @override
   Widget build(BuildContext context) {
+  AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -55,19 +57,19 @@ late TextEditingController _passwordController;
               children: [
                 Image.asset(ImageAssets.logo),
                 SizedBox(height: 24.h,),
-                CustomTextFormField(controller:_emailController,validator:Validator.validateEmail,labelText: "E_mail", keyboardType: TextInputType.emailAddress,prefixIcon: Icon(Icons.email),),
+                CustomTextFormField(controller:_emailController,validator:Validator.validateEmail,labelText: appLocalizations.email, keyboardType: TextInputType.emailAddress,prefixIcon: Icon(Icons.email),),
                 SizedBox(height: 16.h,),
-                CustomTextFormField(controller:_passwordController,validator:Validator.validatePassword,labelText: "Password", keyboardType: TextInputType.visiblePassword,prefixIcon: Icon(Icons.lock),suffixIcon:IconButton(icon:securePassword? Icon(Icons.visibility_off): Icon(Icons.visibility),onPressed: _onTogglePasswordIcon,),isSecure:securePassword ,),
+                CustomTextFormField(controller:_passwordController,validator:Validator.validatePassword,labelText: appLocalizations.password, keyboardType: TextInputType.visiblePassword,prefixIcon: Icon(Icons.lock),suffixIcon:IconButton(icon:securePassword? Icon(Icons.visibility_off): Icon(Icons.visibility),onPressed: _onTogglePasswordIcon,),isSecure:securePassword ,),
                 SizedBox(height: 16.h,),
-                Container(alignment:AlignmentGeometry.centerRight,child: CustomTextButton(text: "forget password ?", onTap: (){})),
+                Container(alignment:AlignmentGeometry.centerRight,child: CustomTextButton(text: appLocalizations.forget_password, onTap: (){})),
                 SizedBox(height: 24.h,),
-                Container(width: double.infinity,child: CustomElevatedButton(onPressed: _login, text: "Login")),
+                Container(width: double.infinity,child: CustomElevatedButton(onPressed: _login, text: appLocalizations.login)),
                 SizedBox(height: 24.h,),
                 Row(mainAxisAlignment:MainAxisAlignment.center,children: [
-                  Text("Don’t Have Account ? ",style:Theme.of(context).textTheme.bodySmall,),
+                  Text(appLocalizations.dont_have_account,style:Theme.of(context).textTheme.bodySmall,),
                   CustomTextButton(onTap: (){
                     Navigator.pushReplacementNamed(context, RoutesManager.register);
-                  },text: "Create account")
+                  },text: appLocalizations.create_account)
                 ],
 
                 ),
@@ -78,7 +80,7 @@ late TextEditingController _passwordController;
                       endIndent: 16.w,
                       thickness: 1,
                       color: ColorsManager.blue,)),
-                    Text("or",style: TextStyle( fontSize: 16.sp,
+                    Text(appLocalizations.or,style: TextStyle( fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: ColorsManager.blue,),),
                     Expanded(child: Divider(  indent: 16.w,
@@ -97,7 +99,7 @@ late TextEditingController _passwordController;
                 Row(mainAxisAlignment: MainAxisAlignment.center,children: [
                   Image.asset(ImageAssets.googleIcon),
                   SizedBox(width: 10.w,),
-                  Text("Login With Google",style: TextStyle( fontSize: 20.sp,
+                  Text(appLocalizations.login_with_google,style: TextStyle( fontSize: 20.sp,
                     fontWeight: FontWeight.w500,
                     color: ColorsManager.blue,),),
                 ],)),

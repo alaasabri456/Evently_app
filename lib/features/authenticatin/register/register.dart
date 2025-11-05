@@ -5,6 +5,7 @@ import 'package:evently/core/ui_utils.dart';
 import 'package:evently/core/widgets/custom_elevated_button.dart';
 import 'package:evently/core/widgets/custom_text_button.dart';
 import 'package:evently/firebase/firebase_service.dart';
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/register_request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return Scaffold(
       resizeToAvoidBottomInset: false,//keyboard
       body:Padding(
@@ -58,25 +60,25 @@ class _RegisterState extends State<Register> {
               Image.asset(ImageAssets.logo),
               SizedBox(height: 24.h,),
               CustomTextFormField(controller:_nameController,validator:Validator.validateName,
-                prefixIcon: Icon(Icons.person),labelText: "Name", keyboardType:TextInputType.name,),
+                prefixIcon: Icon(Icons.person),labelText: appLocalizations.name, keyboardType:TextInputType.name,),
               SizedBox(height: 16.h,),
               CustomTextFormField(controller:_emailController,validator: Validator.validateEmail,
-                prefixIcon:Icon(Icons.email),labelText: "Email", keyboardType:TextInputType.emailAddress,),
+                prefixIcon:Icon(Icons.email),labelText: appLocalizations.email, keyboardType:TextInputType.emailAddress,),
               SizedBox(height: 16.h,),
               CustomTextFormField(controller: _passwordController,
                 validator:Validator.validatePassword,
-                prefixIcon:Icon(Icons.lock),labelText: "Password", keyboardType:TextInputType.visiblePassword,suffixIcon:IconButton(icon:Icon(securePassword?Icons.visibility_off:Icons.visibility) ,onPressed: _onTogglePasswordIcon),isSecure: securePassword,),
+                prefixIcon:Icon(Icons.lock),labelText: appLocalizations.password, keyboardType:TextInputType.visiblePassword,suffixIcon:IconButton(icon:Icon(securePassword?Icons.visibility_off:Icons.visibility) ,onPressed: _onTogglePasswordIcon),isSecure: securePassword,),
               SizedBox(height: 16.h,),
               CustomTextFormField(controller:_rePasswordController,validator:Validator.validatePassword,
-                prefixIcon: Icon(Icons.email),labelText: "Re password", keyboardType:TextInputType.visiblePassword,suffixIcon:IconButton(icon:Icon(secureRePassword?Icons.visibility_off:Icons.visibility) ,onPressed:_onToggleRePasswordIcon ),isSecure: secureRePassword, ),
+                prefixIcon: Icon(Icons.email),labelText:appLocalizations.re_password, keyboardType:TextInputType.visiblePassword,suffixIcon:IconButton(icon:Icon(secureRePassword?Icons.visibility_off:Icons.visibility) ,onPressed:_onToggleRePasswordIcon ),isSecure: secureRePassword, ),
               SizedBox(height: 16.h,),
-              Container(width: double.infinity,child: CustomElevatedButton(onPressed:_createAccount, text: "Create Account")),
+              Container(width: double.infinity,child: CustomElevatedButton(onPressed:_createAccount, text: appLocalizations.create_account)),
               SizedBox(height: 16.h,),
               Row(mainAxisAlignment:MainAxisAlignment.center,children: [
-                Text("Already Have Account ? ",style:Theme.of(context).textTheme.bodySmall,),
+                Text(appLocalizations.already_have_account,style:Theme.of(context).textTheme.bodySmall,),
                 CustomTextButton(onTap: (){
                   Navigator.pushReplacementNamed(context, RoutesManager.login);
-                  },text: "Login")
+                  },text: appLocalizations.login)
               ],
             
               ),

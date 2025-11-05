@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/widgets/event_item.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/category_model.dart';
 import '../../../models/event_model.dart';
 
@@ -11,6 +12,8 @@ class FavouriteTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations=AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Column(
         children: [   Padding(
@@ -18,13 +21,13 @@ class FavouriteTab extends StatelessWidget {
       child: TextField(
           decoration: InputDecoration(
               prefixIcon:Icon(Icons.search,color: ColorsManager.blue,),
-        hintText:"search_for_event",
+        hintText:appLocalizations.search_for_event,
         hintStyle:TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorsManager.blue),
 
           ),
       
         ),),
-          Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.category[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
+          Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.getCategory(context)[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
           )
           )
         ],

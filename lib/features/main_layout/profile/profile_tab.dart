@@ -1,5 +1,6 @@
 import 'package:evently/core/resources/colors_manager.dart';
 import 'package:evently/core/widgets/custom_drop_down_item.dart';
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,6 +11,7 @@ class ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return Column(crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -41,9 +43,9 @@ class ProfileTab extends StatelessWidget {
             ),
           ),
           SizedBox(height: 16.h,),
-          CustomDropDownItem(label: "Theme",menuItems: ["Light","Dark"],selectedLabel: "Light",),
+          CustomDropDownItem(label: appLocalizations.theme,menuItems: [appLocalizations.light,appLocalizations.dark],selectedLabel: appLocalizations.light,),
           SizedBox(height: 16.h,),
-          CustomDropDownItem(label: "Language",menuItems: ["Arabic","English"],selectedLabel: "English",),
+          CustomDropDownItem(label: appLocalizations.language,menuItems: ["Arabic","English"],selectedLabel: "English",),
         Spacer(flex: 7,),
         Container(margin: REdgeInsets.symmetric(horizontal: 16),
           child: ElevatedButton(style:ElevatedButton.styleFrom(padding: REdgeInsets.symmetric(horizontal: 16,vertical: 16),
@@ -53,7 +55,7 @@ class ProfileTab extends StatelessWidget {
               onPressed: (){}, child: Row(
             children: [
               Icon(Icons.logout,color: ColorsManager.white,),
-              Text("Logout",)
+              Text(appLocalizations.logout,)
             ],
           )),
         ),
