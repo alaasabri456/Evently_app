@@ -2,6 +2,7 @@ import 'package:evently/core/resources/colors_manager.dart';
 import 'package:evently/core/widgets/custom_tab_bar.dart';
 import 'package:evently/core/widgets/custom_tab_item.dart';
 import 'package:evently/core/widgets/event_item.dart';
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/category_model.dart';
 import 'package:evently/models/event_model.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,10 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int selectedIndex=0;
+  late AppLocalizations appLocalizations;
   @override
   Widget build(BuildContext context) {
+    appLocalizations=AppLocalizations.of(context)!;
     return Column(children: [
         Container(padding:REdgeInsets.symmetric(horizontal: 8, vertical: 16),
           width: double.infinity,
@@ -35,7 +38,7 @@ class _HomeTabState extends State<HomeTab> {
               Row(children: [
                 Column( spacing: 8,  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  Text("Welcome Back ✨",style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w400,color:ColorsManager.white),),
+                  Text(appLocalizations.welcome_back,style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w400,color:ColorsManager.white),),
                   Text("John Safwat",style: TextStyle(fontSize: 24.sp,fontWeight: FontWeight.bold,color:ColorsManager.white),),
                   Row(children: [
                     Icon(Icons.location_on_outlined,color: ColorsManager.white,),
@@ -58,11 +61,12 @@ class _HomeTabState extends State<HomeTab> {
                 ],)
               ],),
                 SizedBox(height:14.h ,),
-CustomTabBar(categories: CategoryModel.categoryWithAll, selectedBgColor: ColorsManager.white, unselectedBgColor: Colors.transparent, selectedFgColor:ColorsManager.blue, unselectedFgColor: ColorsManager.white)
+CustomTabBar(categories: CategoryModel.getCategoryWithAll(context), selectedBgColor: ColorsManager.white, unselectedBgColor: Colors.transparent, selectedFgColor:ColorsManager.blue, unselectedFgColor: ColorsManager.white)
             ],),
           ),
         ),
-      Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.category[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
+      Expanded(child: ListView.builder(padding: EdgeInsets.zero,
+        itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.getCategory(context)[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
       )
       )
 
