@@ -48,34 +48,35 @@ class _CreateEventState extends State<CreateEvent> {
                 });
               },categories: CategoryModel.getCategory(context), selectedBgColor: ColorsManager.blue, unselectedBgColor: Colors.transparent, selectedFgColor:ColorsManager.white , unselectedFgColor: ColorsManager.blue),
               SizedBox(height:16.h),
-              Text(appLocalizations.title,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+              Text(appLocalizations.title,style:Theme.of(context).textTheme.bodySmall),
                 SizedBox(height: 8.h),
-                CustomTextFormField(labelText:appLocalizations.event_title,keyboardType:TextInputType.text,
+                CustomTextFormField(hintText:appLocalizations.event_title,keyboardType:TextInputType.text,
           prefixIcon:Icon(Icons.edit_note),),
               SizedBox(height: 16.h),
-              Text(appLocalizations.description,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+              Text(appLocalizations.description,style:Theme.of(context).textTheme.bodySmall),
               SizedBox(height: 8.h),
               CustomTextFormField(hintText:appLocalizations.event_description ,maxLiens: 4,keyboardType:TextInputType.text,),
               SizedBox(height: 16.h),
-              Row(children: [Icon(Icons.calendar_month,color: ColorsManager.black,),
+              Row(children: [Icon(Icons.calendar_month,),
                 SizedBox(width: 8.w,),
-                Text(appLocalizations.event_date,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+                Text(appLocalizations.event_date,style:Theme.of(context).textTheme.bodySmall),
                 Spacer(),
                 CustomTextButton(text: appLocalizations.choose_date, onTap: (){
                   showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime.now().add(Duration(days: 365)));
                 })
               ],),
               SizedBox(height: 16.h),
-              Row(children: [Icon(Icons.timer_outlined,color: ColorsManager.black,),
+              Row(children: [Icon(Icons.timer_outlined),
                 SizedBox(width: 8.w,),
-                Text(appLocalizations.event_time,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+                Text(appLocalizations.event_time,style:Theme.of(context).textTheme.bodySmall),
                 Spacer(),
                 CustomTextButton(text:appLocalizations.choose_time, onTap: (){
                   showTimePicker(context: context, initialTime: TimeOfDay.now());
                 })
               ],),
               SizedBox(height: 16.h),
-              Text(appLocalizations.location,style:TextStyle(fontWeight:FontWeight.w500 ,fontSize:16.sp ,color: ColorsManager.black)),
+              Text(appLocalizations.location,style:Theme.of(context).textTheme.bodySmall),
+              SizedBox(height: 30.h),
               SizedBox(height: 8.h),
               CustomElevatedButton(onPressed: (){}, text: appLocalizations.add_event)
 

@@ -1,16 +1,26 @@
 import 'package:evently/core/resources/colors_manager.dart';
+import 'package:evently/core/routes_manager/routes_manager.dart';
 import 'package:evently/core/widgets/custom_drop_down_item.dart';
 import 'package:evently/l10n/app_localizations.dart';
+import 'package:evently/providers/theme_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/resources/assets_manager.dart';
 
-class ProfileTab extends StatelessWidget {
+class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
 
   @override
+  State<ProfileTab> createState() => _ProfileTabState();
+}
+
+class _ProfileTabState extends State<ProfileTab> {
+  @override
   Widget build(BuildContext context) {
+    var themeProvider=Provider.of<ThemeProvider>(context);
     AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return Column(crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,7 +53,11 @@ class ProfileTab extends StatelessWidget {
             ),
           ),
           SizedBox(height: 16.h,),
-          CustomDropDownItem(label: appLocalizations.theme,menuItems: [appLocalizations.light,appLocalizations.dark],selectedLabel: appLocalizations.light,),
+          CustomDropDownItem(label: appLocalizations.theme,menuItems: [appLocalizations.light,appLocalizations.dark],
+            selectedLabel:themeProvider.isDark?appLocalizations.dark:appLocalizations.light,
+            onChange: (newTheme){
+            themeProvider.changeAppTheme(newTheme==appLocalizations.light?ThemeMode.light:ThemeMode.dark);
+          },),
           SizedBox(height: 16.h,),
           CustomDropDownItem(label: appLocalizations.language,menuItems: ["Arabic","English"],selectedLabel: "English",),
         Spacer(flex: 7,),
@@ -52,7 +66,7 @@ class ProfileTab extends StatelessWidget {
             backgroundColor:ColorsManager.red,
             foregroundColor: ColorsManager.white,textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
           ),
-              onPressed: (){}, child: Row(
+              onPressed:_logout, child: Row(
             children: [
               Icon(Icons.logout,color: ColorsManager.white,),
               Text(appLocalizations.logout,)
@@ -64,5 +78,12 @@ class ProfileTab extends StatelessWidget {
         ],
 
     );
+
+  }
+  void _logout()async {
+    await   FirebaseAuth.instance.signOut();
+
+    Navigator.pushReplacementNamed(context, RoutesManager.login);
   }
 }
+

@@ -143,19 +143,19 @@ abstract class AppLocalizations {
   /// No description provided for @already_have_account.
   ///
   /// In en, this message translates to:
-  /// **'Already Have Account'**
+  /// **'Already Have Account? '**
   String get already_have_account;
 
   /// No description provided for @forget_password.
   ///
   /// In en, this message translates to:
-  /// **'Forget Password'**
+  /// **'Forget Password? '**
   String get forget_password;
 
   /// No description provided for @dont_have_account.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t Have Account'**
+  /// **'Don\'t Have Account? '**
   String get dont_have_account;
 
   /// No description provided for @or.
@@ -179,7 +179,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcome_back.
   ///
   /// In en, this message translates to:
-  /// **'Welcome Back'**
+  /// **'Welcome Back ✨'**
   String get welcome_back;
 
   /// No description provided for @favourite.

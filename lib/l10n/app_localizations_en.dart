@@ -30,13 +30,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
-  String get already_have_account => 'Already Have Account';
+  String get already_have_account => 'Already Have Account? ';
 
   @override
-  String get forget_password => 'Forget Password';
+  String get forget_password => 'Forget Password? ';
 
   @override
-  String get dont_have_account => 'Don\'t Have Account';
+  String get dont_have_account => 'Don\'t Have Account? ';
 
   @override
   String get or => 'or';
@@ -48,7 +48,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reset_password => 'Reset Password';
 
   @override
-  String get welcome_back => 'Welcome Back';
+  String get welcome_back => 'Welcome Back ✨';
 
   @override
   String get favourite => 'Favourite';

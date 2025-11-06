@@ -11,10 +11,12 @@ import 'package:evently/models/login_request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/routes_manager/routes_manager.dart';
 import 'package:google_sign_in/google_sign_in.dart' ;
 
+import '../../../providers/theme_provider.dart';
 import 'auth_service.dart';
 
 class Login extends StatefulWidget {
@@ -45,6 +47,7 @@ late TextEditingController _passwordController;
 
   @override
   Widget build(BuildContext context) {
+  var themeProvider=Provider.of<ThemeProvider>(context);
   AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -89,7 +92,8 @@ late TextEditingController _passwordController;
                       color: ColorsManager.blue,)),
                   ],),
                 SizedBox(height: 24.h,),
-                OutlinedButton( onPressed: ()async{
+                OutlinedButton(
+                    onPressed: ()async{
                  var user=await AuthService.signInWithGoogle();
                  print(user.user?.displayName);
                  print(user.user?.email);

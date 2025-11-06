@@ -7,6 +7,9 @@ import 'package:evently/models/category_model.dart';
 import 'package:evently/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/theme_provider.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -20,13 +23,14 @@ class _HomeTabState extends State<HomeTab> {
   late AppLocalizations appLocalizations;
   @override
   Widget build(BuildContext context) {
+    var themeProvider=Provider.of<ThemeProvider>(context);
     appLocalizations=AppLocalizations.of(context)!;
     return Column(children: [
         Container(padding:REdgeInsets.symmetric(horizontal: 8, vertical: 16),
           width: double.infinity,
           decoration: BoxDecoration(borderRadius:BorderRadius.vertical(
               bottom: Radius.circular(16.r)),
-              color: ColorsManager.blue
+               color: Theme.of(context).primaryColor,
           ),
           child: SafeArea(
             right: false,
@@ -38,23 +42,26 @@ class _HomeTabState extends State<HomeTab> {
               Row(children: [
                 Column( spacing: 8,  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  Text(appLocalizations.welcome_back,style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w400,color:ColorsManager.white),),
-                  Text("John Safwat",style: TextStyle(fontSize: 24.sp,fontWeight: FontWeight.bold,color:ColorsManager.white),),
+                  Text(appLocalizations.welcome_back,style:Theme.of(context).textTheme.labelSmall),
+                  Text("John Safwat",style: Theme.of(context).textTheme.bodyLarge,),
                   Row(children: [
-                    Icon(Icons.location_on_outlined,color: ColorsManager.white,),
-                    Text("Cairo , Egypt",style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w500,color:ColorsManager.white),)
+                    Icon(Icons.location_on_outlined,color: themeProvider.isDark?ColorsManager.ofWhite:ColorsManager.white,),
+                    Text("Cairo , Egypt",style: Theme.of(context).textTheme.labelMedium,)
                   ],),
 
 
                 ],),
                 Spacer(),
                 Row(children: [
-                  IconButton(icon:Icon(Icons.light_mode_outlined,color: ColorsManager.white,),onPressed: (){},),
+                  IconButton(icon:Icon(color: themeProvider.isDark?ColorsManager.ofWhite:ColorsManager.white,themeProvider.isDark?Icons.dark_mode:Icons.light_mode_outlined,),onPressed: (){
+                    themeProvider.changeAppTheme(themeProvider.isDark?ThemeMode.light:ThemeMode.dark);
+                  },),
                   SizedBox(width: 10.w,),
                   InkWell(onTap: (){},
-                    child: Card(color:ColorsManager.white,child: Padding(
+                    child: Card(color: themeProvider.isDark?ColorsManager.ofWhite:ColorsManager.whiteBlue,
+                        child: Padding(
                       padding: REdgeInsets.all(8.0),
-                      child: Text("EN",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: ColorsManager.blue),),
+                      child: Text("EN",style: Theme.of(context).textTheme.titleMedium,),
                     )),
                   ),
 

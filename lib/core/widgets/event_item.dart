@@ -35,16 +35,29 @@ class _EventItemState extends State<EventItem> {
               padding: REdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text(widget.event.data.viewDayNumber),
-                  Text(widget.event.data.viewMonthName),
+                  Text(widget.event.data.viewDayNumber,
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      color: ColorsManager.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(widget.event.data.viewMonthName,
+                      style: TextStyle( fontSize: 14.sp,
+                        color: ColorsManager.blue,
+                        fontWeight: FontWeight.bold,)
+                  ),
                 ],),
             ),
           ),
+
           Spacer(),
-          Card(child: Padding(
+          Card(
+            child: Padding(
             padding: REdgeInsets.all(8.0),
             child: Row(children: [
-              Expanded(child: Text(widget.event.title)),
+              Expanded(child: Text( widget.event.title,
+                style: Theme.of(context).textTheme.titleSmall,)),
               IconButton(onPressed: () {
                 isFavorite = !isFavorite;
                 setState(() {
