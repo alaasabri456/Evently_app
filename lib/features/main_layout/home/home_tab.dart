@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/language_provider.dart';
 import '../../../providers/theme_provider.dart';
 
 class HomeTab extends StatefulWidget {
@@ -24,6 +25,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     var themeProvider=Provider.of<ThemeProvider>(context);
+    var languageProvider=Provider.of<LanguageProvider>(context);
     appLocalizations=AppLocalizations.of(context)!;
     return Column(children: [
         Container(padding:REdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -57,11 +59,13 @@ class _HomeTabState extends State<HomeTab> {
                     themeProvider.changeAppTheme(themeProvider.isDark?ThemeMode.light:ThemeMode.dark);
                   },),
                   SizedBox(width: 10.w,),
-                  InkWell(onTap: (){},
+                  InkWell(onTap: (){
+                    languageProvider.changeAppLanguage(languageProvider.isEnglish?"ar":"en");
+                  },
                     child: Card(color: themeProvider.isDark?ColorsManager.ofWhite:ColorsManager.whiteBlue,
                         child: Padding(
                       padding: REdgeInsets.all(8.0),
-                      child: Text("EN",style: Theme.of(context).textTheme.titleMedium,),
+                      child: Text(languageProvider.isEnglish?"EN":"AR",style: Theme.of(context).textTheme.titleMedium,),
                     )),
                   ),
 

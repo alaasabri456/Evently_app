@@ -1,5 +1,6 @@
 import 'package:evently/config/theme/theme_manager.dart';
 import 'package:evently/core/routes_manager/routes_manager.dart';
+import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +13,9 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
 
-  runApp(ChangeNotifierProvider(create: (context) =>ThemeProvider(),
-  child: const MyApp()));
+  runApp(
+   MultiProvider(providers: [ChangeNotifierProvider(create:(context) =>ThemeProvider()),ChangeNotifierProvider(create:(context) =>LanguageProvider())],
+   child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeProvider=Provider.of<ThemeProvider>(context);
+    var languageProvider=Provider.of<LanguageProvider>(context);
     return ScreenUtilInit(
       designSize: Size(393, 841),
       splitScreenMode: true,
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeManager.light,
         darkTheme:ThemeManager.dark ,
         themeMode: themeProvider.currentTheme,
-        locale: Locale("en"),
+        locale: Locale(languageProvider.currentLanguage),
         localizationsDelegates: [AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

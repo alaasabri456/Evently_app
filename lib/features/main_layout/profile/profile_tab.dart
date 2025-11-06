@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/resources/assets_manager.dart';
+import '../../../providers/language_provider.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -21,6 +22,7 @@ class _ProfileTabState extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
     var themeProvider=Provider.of<ThemeProvider>(context);
+    var languageProvider=Provider.of<LanguageProvider>(context);
     AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return Column(crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,7 +61,11 @@ class _ProfileTabState extends State<ProfileTab> {
             themeProvider.changeAppTheme(newTheme==appLocalizations.light?ThemeMode.light:ThemeMode.dark);
           },),
           SizedBox(height: 16.h,),
-          CustomDropDownItem(label: appLocalizations.language,menuItems: ["Arabic","English"],selectedLabel: "English",),
+          CustomDropDownItem(label: appLocalizations.language,menuItems: ["Arabic","English"],selectedLabel:languageProvider.isEnglish?"English":"Arabic" ,
+          onChange:(newLanguage){
+            languageProvider.changeAppLanguage(newLanguage=="English"?"en":"ar");
+          },
+          ),
         Spacer(flex: 7,),
         Container(margin: REdgeInsets.symmetric(horizontal: 16),
           child: ElevatedButton(style:ElevatedButton.styleFrom(padding: REdgeInsets.symmetric(horizontal: 16,vertical: 16),
