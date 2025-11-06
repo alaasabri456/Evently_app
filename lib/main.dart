@@ -1,4 +1,5 @@
 import 'package:evently/config/theme/theme_manager.dart';
+import 'package:evently/core/prefs_manager/prefs_manager.dart';
 import 'package:evently/core/routes_manager/routes_manager.dart';
 import 'package:evently/providers/language_provider.dart';
 import 'package:evently/providers/theme_provider.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+ await PrefsManager.init();
   await Firebase.initializeApp();
 
 
