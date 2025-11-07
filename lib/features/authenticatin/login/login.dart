@@ -8,6 +8,7 @@ import 'package:evently/core/widgets/custom_text_form_field.dart';
 import 'package:evently/firebase/firebase_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/login_request.dart';
+import 'package:evently/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,10 +95,13 @@ late TextEditingController _passwordController;
                 SizedBox(height: 24.h,),
                 OutlinedButton(
                     onPressed: ()async{
-                 var user=await AuthService.signInWithGoogle();
-                 print(user.user?.displayName);
-                 print(user.user?.email);
-                },
+                      var user=await AuthService.signInWithGoogle();
+                      Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+                      print(user.user?.displayName);
+                      print(user.user?.email);
+
+
+                    },
 
                  child:
                 Row(mainAxisAlignment: MainAxisAlignment.center,children: [
@@ -129,6 +133,7 @@ late TextEditingController _passwordController;
           email: _emailController.text, password: _passwordController.text));
       UiUtils.hideDialog(context);
       UiUtils.showToastMessage("Logged_In successfully", Colors.green);
+      UserModel.currentUser=await FirebaseService.getUserFromFireStore(userCredential.user!.uid);
       Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
     } on FirebaseAuthException catch(e){
       UiUtils.hideDialog(context);

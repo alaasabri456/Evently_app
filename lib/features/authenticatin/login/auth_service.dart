@@ -7,7 +7,7 @@ class AuthService {
  static Future<void> _IntiSignin() async {
     if(!isInitialize) {
       await _google.initialize(
-        clientId:
+        serverClientId:
         '760020282271-0jhq74fu8iq63oh6e0bu76ucerrtkbpn.apps.googleusercontent.com',
       );
     }

@@ -2,6 +2,7 @@ import 'package:evently/core/resources/colors_manager.dart';
 import 'package:evently/core/routes_manager/routes_manager.dart';
 import 'package:evently/core/widgets/custom_drop_down_item.dart';
 import 'package:evently/l10n/app_localizations.dart';
+import 'package:evently/models/user_model.dart';
 import 'package:evently/providers/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +46,8 @@ class _ProfileTabState extends State<ProfileTab> {
                     child: Column(crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      Text("John Safwat",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: ColorsManager.white),),
-                      Text("johnsafwat.route@gmail.com",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorsManager.white),),
+                      Text(UserModel.currentUser!.name,style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: ColorsManager.white),),
+                      Text(UserModel.currentUser!.email,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: ColorsManager.white),),
 
                     ],),
                   )

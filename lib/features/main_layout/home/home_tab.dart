@@ -2,9 +2,11 @@ import 'package:evently/core/resources/colors_manager.dart';
 import 'package:evently/core/widgets/custom_tab_bar.dart';
 import 'package:evently/core/widgets/custom_tab_item.dart';
 import 'package:evently/core/widgets/event_item.dart';
+import 'package:evently/firebase/firebase_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/category_model.dart';
 import 'package:evently/models/event_model.dart';
+import 'package:evently/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +47,7 @@ class _HomeTabState extends State<HomeTab> {
                 Column( spacing: 8,  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                   Text(appLocalizations.welcome_back,style:Theme.of(context).textTheme.labelSmall),
-                  Text("John Safwat",style: Theme.of(context).textTheme.bodyLarge,),
+                  Text(UserModel.currentUser!.name,style: Theme.of(context).textTheme.bodyLarge,),
                   Row(children: [
                     Icon(Icons.location_on_outlined,color: themeProvider.isDark?ColorsManager.ofWhite:ColorsManager.white,),
                     Text("Cairo , Egypt",style: Theme.of(context).textTheme.labelMedium,)

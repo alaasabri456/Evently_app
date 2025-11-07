@@ -7,6 +7,7 @@ import 'package:evently/core/widgets/custom_text_button.dart';
 import 'package:evently/firebase/firebase_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/models/register_request.dart';
+import 'package:evently/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -104,6 +105,8 @@ class _RegisterState extends State<Register> {
       UserCredential userCredential = await  FirebaseService.register(RegisterRequest(email:_emailController.text, password:_passwordController.text));
 
     UiUtils.showToastMessage("Successfully Registration", Colors.green);
+    UserModel user=UserModel(id:userCredential.user!.uid, email: _emailController.text, name: _nameController.text);
+    FirebaseService.addUserToFireStore(user);
       UiUtils.hideDialog(context);
       Navigator.pushReplacementNamed(context, RoutesManager.login);
     }
