@@ -8,7 +8,7 @@ class AuthService {
     if(!isInitialize) {
       await _google.initialize(
         serverClientId:
-        '760020282271-0jhq74fu8iq63oh6e0bu76ucerrtkbpn.apps.googleusercontent.com',
+        '760020282271-oj9ju569hcd0g52hto577sia2our5ul8.apps.googleusercontent.com',
       );
     }
     isInitialize=true;

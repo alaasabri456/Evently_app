@@ -3,8 +3,8 @@ abstract class Validator{
     if(name==null||name.trim().isEmpty){
       return "the name is required";
     }
-    if (name.length < 4) {
-      return "Name should be at least 6 chars";
+    if (name.length < 3) {
+      return "Name should be at least 3 chars";
     }
     return null;
   }
@@ -37,6 +37,18 @@ abstract class Validator{
     return null;
   }
 
-
+  static String? validateEventTitle(String? title) {
+    if(title==null||title.trim().isEmpty){
+      return "the title is required";
+    }
 }
 
+  static String? validateEventDescription(String? description) {
+    if (description == null || description
+        .trim()
+        .isEmpty) {
+      return "the description is required";
+
+    }
+  }
+}

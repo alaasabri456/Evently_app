@@ -10,4 +10,15 @@ extension DateExtension on DateTime{
 
     return day.toString();
   }
+
+  String get toFormattedDate{
+
+    return DateFormat("dd-MM-yyyy").format(this);
+  }
+
+
+  String get toFormattedTime{
+    return DateFormat("hh:mm").format(this);
+  }
+
 }

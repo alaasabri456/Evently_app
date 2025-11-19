@@ -26,7 +26,7 @@ class FavouriteTab extends StatelessWidget {
           ),
       
         ),),
-          Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.getCategory(context)[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
+          Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:EventModel(id: "",category: CategoryModel.getCategory(context)[3], title: "FSDGFHG", description: "JHJGHFDF", dateTime: DateTime.now()) ,) ,itemCount: 20,
           )
           )
         ],

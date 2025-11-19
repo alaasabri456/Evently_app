@@ -23,12 +23,14 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int selectedIndex=0;
-  late AppLocalizations appLocalizations;
+late CategoryModel selectedCategory=CategoryModel.getCategoryWithAll(context)[0];
+  List<EventModel>events=[];
   @override
   Widget build(BuildContext context) {
+   // if(events.isEmpty)loadEvents();
     var themeProvider=Provider.of<ThemeProvider>(context);
     var languageProvider=Provider.of<LanguageProvider>(context);
-    appLocalizations=AppLocalizations.of(context)!;
+    AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return Column(children: [
         Container(padding:REdgeInsets.symmetric(horizontal: 8, vertical: 16),
           width: double.infinity,
@@ -74,16 +76,36 @@ class _HomeTabState extends State<HomeTab> {
                 ],)
               ],),
                 SizedBox(height:14.h ,),
-CustomTabBar(categories: CategoryModel.getCategoryWithAll(context), selectedBgColor: ColorsManager.white, unselectedBgColor: Colors.transparent, selectedFgColor:ColorsManager.blue, unselectedFgColor: ColorsManager.white)
+CustomTabBar(onCategotyItemClick: (category) {
+  selectedCategory=category;
+  setState(() {
+
+  });
+},
+    categories: CategoryModel.getCategoryWithAll(context), selectedBgColor: ColorsManager.white, unselectedBgColor: Colors.transparent, selectedFgColor:ColorsManager.blue, unselectedFgColor: ColorsManager.white)
             ],),
           ),
         ),
-      Expanded(child: ListView.builder(padding: EdgeInsets.zero,
-        itemBuilder: (context, index) =>EventItem(event:EventModel(category: CategoryModel.getCategory(context)[3], title: "FSDGFHG", description: "JHJGHFDF", data: DateTime.now(), timeOfDay: TimeOfDay.now()) ,) ,itemCount: 20,
-      )
-      )
+       StreamBuilder(stream: FirebaseService.getEventsFromFireStoreRealTimeUpdate(context,selectedCategory), builder: (context, snapshot) {
+         if(snapshot.connectionState==ConnectionState.waiting)return Center(child: CircularProgressIndicator());
+         if (snapshot.hasError) {
+           return Center(child: Text(snapshot.error.toString()));
+         }
+         List<EventModel> events = snapshot.data ?? [];
+         return Expanded(child:ListView.builder(padding: EdgeInsets.zero,
+           itemBuilder: (context, index) =>EventItem(event:events[index] ),itemCount: events.length,
+         ),);
+       }
+         ,)
+
+
 
       ],);
 
   }
+
+// void loadEvents() async {
+//   events = await FirebaseService.getEventsFromFireStore(context);
+//    setState(() {});
+//  }
 }

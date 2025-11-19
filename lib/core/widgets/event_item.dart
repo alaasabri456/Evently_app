@@ -35,14 +35,14 @@ class _EventItemState extends State<EventItem> {
               padding: REdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text(widget.event.data.viewDayNumber,
+                  Text(widget.event.dateTime.viewDayNumber,
                     style: TextStyle(
                       fontSize: 20.sp,
                       color: ColorsManager.blue,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(widget.event.data.viewMonthName,
+                  Text(widget.event.dateTime.viewMonthName,
                       style: TextStyle( fontSize: 14.sp,
                         color: ColorsManager.blue,
                         fontWeight: FontWeight.bold,)

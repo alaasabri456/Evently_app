@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
       builder: (context, child) =>  MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute:RoutesManager.router,
-        initialRoute: FirebaseAuth.instance.currentUser==null?RoutesManager.login:RoutesManager.mainLayout,
-        //initialRoute: RoutesManager.login,
+       initialRoute: FirebaseAuth.instance.currentUser==null?RoutesManager.login:RoutesManager.mainLayout,
+       // initialRoute: RoutesManager.login,
         theme: ThemeManager.light,
         darkTheme:ThemeManager.dark ,
         themeMode: themeProvider.currentTheme,
