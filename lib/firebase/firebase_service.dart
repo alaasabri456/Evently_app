@@ -75,6 +75,7 @@ class FirebaseService {
     CollectionReference<EventModel> eventsCollection =_getEventsCollection(context);
     DocumentReference<EventModel> eventDocument=eventsCollection.doc();
     event.id=eventDocument.id;
+    event.uid=UserModel.currentUser!.id;
     return eventDocument.set(event);
   }
 
@@ -92,6 +93,14 @@ class FirebaseService {
     Stream<List<EventModel>> events =querySnapshot.map((snapShot)=>snapShot.docs.map((documentSnapshot)=>documentSnapshot.data()).toList());
     //List<EventModel>events= querySnapshot.docs.map((documentSnapshot)=>documentSnapshot.data()).toList();
     yield* events;
+  }
+
+  static Future<void> deleteEvent(BuildContext context,String eventId) async {
+    await _getEventsCollection(context).doc(eventId).delete();
+  }
+
+  static Future<void> updateEvent(BuildContext context,EventModel event) async {
+    await _getEventsCollection(context).doc(event.id).update(event.toJson());
   }
 
 }

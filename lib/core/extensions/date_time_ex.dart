@@ -21,4 +21,13 @@ extension DateExtension on DateTime{
     return DateFormat("hh:mm").format(this);
   }
 
+  String get toFormattedDateCard{
+
+    return DateFormat("d-MMMM-yyyy").format(this);
+  }
+
+  String get toFormattedTimeCard{
+    return DateFormat("h:mma").format(this).toUpperCase();
+  }
+
 }

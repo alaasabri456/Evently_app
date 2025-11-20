@@ -18,7 +18,9 @@ import '../../core/widgets/custom_text_form_field.dart';
 import '../../l10n/app_localizations.dart';
 
 class CreateEvent extends StatefulWidget {
-  const CreateEvent({super.key});
+  final EventModel? event;
+
+  const CreateEvent({super.key,this.event});
 
   @override
   State<CreateEvent> createState() => _CreateEventState();
@@ -35,8 +37,13 @@ late TextEditingController _titleController;
   void initState() {
     // TODO: implement initState
     super.initState();
-    _titleController = TextEditingController();
-    _descriptionController = TextEditingController();
+    _titleController = TextEditingController(); _descriptionController = TextEditingController();
+    if (widget.event != null) {
+      selectedCategory = widget.event!.category;
+      _titleController.text = widget.event!.title;
+      _descriptionController.text = widget.event!.description;
+      selectedDateTime = widget.event!.dateTime;
+    }
   }
   @override
   void dispose() {
@@ -51,7 +58,7 @@ late TextEditingController _titleController;
 
     return Scaffold(
       appBar: AppBar(
-        title:Text(appLocalizations.create_event),
+        title:Text(widget.event == null ? appLocalizations.create_event:appLocalizations.edit_event),
 
       ),
       body: Padding(
@@ -103,7 +110,8 @@ late TextEditingController _titleController;
                 Text(appLocalizations.location,style:Theme.of(context).textTheme.bodySmall),
                 SizedBox(height: 30.h),
                 SizedBox(height: 8.h),
-                CustomElevatedButton(onPressed: _createEvent, text: appLocalizations.add_event)
+                CustomElevatedButton(onPressed:  widget.event == null? _createEvent:_updateEvent,
+                    text:  widget.event == null? appLocalizations.add_event:appLocalizations.update_event)
 
               ],
             ),
@@ -155,5 +163,27 @@ UiUtils.hideDialog(context);
     Navigator.pop(context);
   }
 
+  void _updateEvent() async {
+    if (_formKey.currentState?.validate() == false) return;
+    UiUtils.showLoading(context,false);
 
+    EventModel event = EventModel(
+      id: widget.event!.id,
+      category: selectedCategory,
+      title: _titleController.text,
+      description: _descriptionController.text,
+      dateTime: selectedDateTime,
+      uid: widget.event!.uid,
+    );
+    await FirebaseService.updateEvent(context,event);
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+    UiUtils.showToastMessage("Event Updated successfully",Colors.green);
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+  }
 }
+
+

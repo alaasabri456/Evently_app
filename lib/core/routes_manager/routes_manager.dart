@@ -1,5 +1,7 @@
 import 'package:evently/features/authenticatin/login/login.dart';
 import 'package:evently/features/create_event/create_event.dart';
+import 'package:evently/features/event_details/event_details.dart';
+import 'package:evently/models/event_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/authenticatin/register/register.dart';
@@ -10,7 +12,10 @@ class RoutesManager{
   static const String login="/login";
   static const String mainLayout="/mainLayout";
   static const String createEvent="/createEvent";
+  static const String eventDetails="/eventDetails";
+
   static Route? router(RouteSettings setting){
+
     switch(setting.name){
       case register:{
         return MaterialPageRoute(builder:(context) => Register(),);
@@ -22,7 +27,14 @@ class RoutesManager{
         return MaterialPageRoute(builder:(context) => MainLayout(),);
       }
       case createEvent:{
-        return MaterialPageRoute(builder:(context) => CreateEvent(),);
+    final EventModel? event = setting.arguments as EventModel?;
+    return MaterialPageRoute(
+    builder: (context) => CreateEvent(event: event),);
+      }
+
+      case eventDetails:{
+        final EventModel event=setting.arguments as EventModel;
+        return MaterialPageRoute(builder:(context) => EventDetails(event: event,),);
       }
     }
   }
