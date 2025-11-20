@@ -93,12 +93,12 @@ CustomTabBar(onCategotyItemClick: (category) {
          }
          List<EventModel> events = snapshot.data ?? [];
          return Expanded(child:ListView.builder(padding: EdgeInsets.zero,
-           itemBuilder: (context, index) =>EventItem(event:events[index] ),itemCount: events.length,
+           itemBuilder: (context, index) =>EventItem(event:events[index],markAsFavorite: UserModel.currentUser!.favouriteEventsId.contains(events[index].id),),itemCount: events.length,
          ),);
        }
-         ,)
+         ,),
 
-
+SizedBox(height: 80.h,),
 
       ],);
 

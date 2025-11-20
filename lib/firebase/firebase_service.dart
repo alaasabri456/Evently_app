@@ -79,9 +79,9 @@ class FirebaseService {
     return eventDocument.set(event);
   }
 
-  static  Future<List<EventModel>>  getEventsFromFireStore(BuildContext context,CategoryModel category)async{
+  static  Future<List<EventModel>>  getEventsFromFireStore(BuildContext context,[CategoryModel? category])async{
     CollectionReference<EventModel> eventsCollection =_getEventsCollection(context);
-    QuerySnapshot<EventModel> querySnapshot=await eventsCollection.where("categoryId", isEqualTo: category.categId=="0"?null:category.categId).orderBy("dateTime").get();
+    QuerySnapshot<EventModel> querySnapshot=await eventsCollection.where("categoryId", isEqualTo: category?.categId=="0"?null:category?.categId).orderBy("dateTime").get();
     List<EventModel>events= querySnapshot.docs.map((documentSnapshot)=>documentSnapshot.data()).toList();
     return events;
   }
@@ -101,6 +101,27 @@ class FirebaseService {
 
   static Future<void> updateEvent(BuildContext context,EventModel event) async {
     await _getEventsCollection(context).doc(event.id).update(event.toJson());
+  }
+
+  static Future<void> addEventToFavourites(EventModel event){
+    UserModel currentUser =UserModel.currentUser!;
+    currentUser.favouriteEventsId.add(event.id);
+    CollectionReference<UserModel> usersCollection = _getUsersCollection();
+    DocumentReference<UserModel> userDocument =usersCollection.doc(currentUser.id);
+    return userDocument.set(currentUser);
+  }
+
+  static Future<void> removeEventFromFavourite(EventModel event) {
+    UserModel currentUser =UserModel.currentUser!;
+    currentUser.favouriteEventsId.remove(event.id);
+    CollectionReference<UserModel> usersCollection = _getUsersCollection();
+    DocumentReference<UserModel> userDocument =usersCollection.doc(currentUser.id);
+    return userDocument.set(currentUser);
+  }
+  static Future<List<EventModel>> getFavouriteEvents(BuildContext context) async {
+    List<EventModel> events=await getEventsFromFireStore(context);
+   List<EventModel> favEvents= events.where((event)=>UserModel.currentUser!.favouriteEventsId.contains(event.id)).toList();
+   return favEvents;
   }
 
 }

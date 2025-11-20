@@ -105,7 +105,7 @@ class _RegisterState extends State<Register> {
       UserCredential userCredential = await  FirebaseService.register(RegisterRequest(email:_emailController.text, password:_passwordController.text));
 
     UiUtils.showToastMessage("Successfully Registration", Colors.green);
-    UserModel user=UserModel(id:userCredential.user!.uid, email: _emailController.text, name: _nameController.text);
+    UserModel user=UserModel(id:userCredential.user!.uid, email: _emailController.text, name: _nameController.text,favouriteEventsId: []);
     FirebaseService.addUserToFireStore(user);
       UiUtils.hideDialog(context);
       Navigator.pushReplacementNamed(context, RoutesManager.login);

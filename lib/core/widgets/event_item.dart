@@ -1,5 +1,6 @@
 import 'package:evently/core/extensions/date_time_ex.dart';
 import 'package:evently/core/routes_manager/routes_manager.dart';
+import 'package:evently/firebase/firebase_service.dart';
 import 'package:evently/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,15 +8,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../resources/colors_manager.dart';
 import 'package:intl/intl.dart';
 class EventItem extends StatefulWidget {
-  const EventItem({super.key, required this.event});
+  const EventItem({super.key, required this.event,this.markAsFavorite});
 final EventModel event;
-
+final bool? markAsFavorite;
   @override
   State<EventItem> createState() => _EventItemState();
 }
 
 class _EventItemState extends State<EventItem> {
-  bool isFavorite = false;
+  late bool isFavorite = widget.markAsFavorite??false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +62,7 @@ class _EventItemState extends State<EventItem> {
               child: Row(children: [
                 Expanded(child: Text( widget.event.title,
                   style: Theme.of(context).textTheme.titleSmall,)),
-                IconButton(onPressed: () {
-                  isFavorite = !isFavorite;
-                  setState(() {
-
-                  });
-                },
+                IconButton(onPressed:_markEvent,
                     icon: Icon(
                         isFavorite ? Icons.favorite: Icons.favorite_border),color: ColorsManager.blue,),
 
@@ -81,5 +77,17 @@ class _EventItemState extends State<EventItem> {
   }
 
 
+
+  void _markEvent() async{
+    if(isFavorite){
+      FirebaseService.removeEventFromFavourite(widget.event);
+      isFavorite=false;
+    }
+    else {
+      isFavorite=true;
+      await FirebaseService.addEventToFavourites(widget.event);
+    }
+    setState(() {});
+  }
 }
 

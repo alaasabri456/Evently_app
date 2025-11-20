@@ -1,4 +1,5 @@
 import 'package:evently/core/resources/colors_manager.dart';
+import 'package:evently/firebase/firebase_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,9 +27,16 @@ class FavouriteTab extends StatelessWidget {
           ),
       
         ),),
-          Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:EventModel(id: "",category: CategoryModel.getCategory(context)[3], title: "FSDGFHG", description: "JHJGHFDF", dateTime: DateTime.now()) ,) ,itemCount: 20,
-          )
-          )
+          FutureBuilder(future: FirebaseService.getFavouriteEvents(context),
+              builder: (context, snapshot) {
+                if(snapshot.connectionState==ConnectionState.waiting)return Center(child: CircularProgressIndicator(),);
+    if (snapshot.hasError)return Center(child: Text(snapshot.error.toString()));
+    List<EventModel>favEvents=snapshot.data??[];
+    return   Expanded(child: ListView.builder(itemBuilder: (context, index) =>EventItem(event:favEvents[index],markAsFavorite: true,) ,itemCount: favEvents.length,
+    )
+    );
+              },),
+
         ],
       ),
     );
