@@ -6,6 +6,7 @@ import 'package:evently/models/register_request.dart';
 import 'package:evently/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseService {
   static Future<UserCredential> register(RegisterRequest request)  async {
@@ -59,6 +60,48 @@ class FirebaseService {
     DocumentReference<UserModel> usersDocument=usersCollection.doc(uid);
     DocumentSnapshot<UserModel> documentSnapshot =await usersDocument.get();
     return documentSnapshot.data();
+  }
+
+  static final GoogleSignIn _google = GoogleSignIn.instance;
+  static bool isInitialize=false;
+  static Future<void> _IntiSignin() async {
+    if(!isInitialize) {
+      await _google.initialize(
+        serverClientId:
+        '760020282271-oj9ju569hcd0g52hto577sia2our5ul8.apps.googleusercontent.com',
+      );
+    }
+    isInitialize=true;
+
+  }
+
+  static Future<UserCredential>signInWithGoogle()async{
+    _IntiSignin();
+    GoogleSignInAccount account= await _google.authenticate();
+    final idToken=account.authentication.idToken;
+    final authClient=account.authorizationClient;
+    final GoogleSignInClientAuthorization? auth =await authClient.authorizationForScopes(['email','profile']);
+    final accessToken=auth?.accessToken;
+    final credential=GoogleAuthProvider.credential(idToken:idToken,accessToken: accessToken);
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  static Future<UserModel> handleGoogleSignInUser(User user) async {
+    UserModel? existingUser = await getUserFromFireStore(user.uid);
+
+    if (existingUser != null) {
+      return existingUser;
+    } else {
+      UserModel newUser = UserModel(
+        id: user.uid,
+        name: user.displayName ?? 'Google User',
+        email: user.email ?? '',
+        favouriteEventsId: [],
+      );
+
+      await addUserToFireStore(newUser);
+      return newUser;
+    }
   }
 
   static CollectionReference<EventModel> _getEventsCollection(BuildContext context) {
@@ -130,7 +173,8 @@ class FirebaseService {
     List<String> favoriteEventIds = UserModel.currentUser!.favouriteEventsId;
 
     if (favoriteEventIds.isEmpty) {
-      yield* Stream.value([]);
+       yield [];
+       return;
     }
 
 

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/widgets/event_item.dart';
-import '../../../models/category_model.dart';
+
 import '../../../models/event_model.dart';
 import '../../../models/user_model.dart';
 
@@ -50,18 +50,21 @@ class _FavouriteTabState extends State<FavouriteTab> {
             stream: userStream,
             builder: (context, userSnapshot) {
               if (userSnapshot.hasData && userSnapshot.data != null) {
-                UserModel.currentUser = userSnapshot.data!;
+                UserModel.currentUser = userSnapshot.data;
 
                 return StreamBuilder<List<EventModel>>(
                   stream: FirebaseService.getFavoriteEventsRealTimeUpdate(context),
                   builder: (context, eventsSnapshot) {
-                    if (eventsSnapshot.connectionState == ConnectionState.waiting)
+                    if (eventsSnapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
-                    if (eventsSnapshot.hasError)
+                    }
+                    if (eventsSnapshot.hasError) {
                       return Center(child: Text(eventsSnapshot.error.toString()));
+                    }
 
                     List<EventModel> favEvents = eventsSnapshot.data ?? [];
-                    if (!searchText.isEmpty) {
+
+                    if (searchText.isNotEmpty) {
                       favEvents = filterByEventTitle(searchText, favEvents);
                     }
                     return Expanded(
@@ -75,7 +78,7 @@ class _FavouriteTabState extends State<FavouriteTab> {
                     );
                   },
                 );
-              }
+             }
               return Center(child: CircularProgressIndicator());
             },
           ),

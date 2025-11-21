@@ -5,6 +5,7 @@ import 'package:evently/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../models/user_model.dart';
 import '../resources/colors_manager.dart';
 import 'package:intl/intl.dart';
 class EventItem extends StatefulWidget {
@@ -17,6 +18,10 @@ final bool? markAsFavorite;
 
 class _EventItemState extends State<EventItem> {
   late bool isFavorite = widget.markAsFavorite??false;
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +86,13 @@ class _EventItemState extends State<EventItem> {
   void _markEvent() async{
     if(isFavorite){
      await FirebaseService.removeEventFromFavourite(widget.event);
-      isFavorite=false;
+     isFavorite=false;
     }
     else {
       isFavorite=true;
       await FirebaseService.addEventToFavourites(widget.event);
     }
+
     setState(() {});
   }
 }

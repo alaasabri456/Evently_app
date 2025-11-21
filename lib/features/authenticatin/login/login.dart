@@ -15,10 +15,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/routes_manager/routes_manager.dart';
-import 'package:google_sign_in/google_sign_in.dart' ;
+
 
 import '../../../providers/theme_provider.dart';
-import 'auth_service.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -95,14 +95,25 @@ late TextEditingController _passwordController;
                 SizedBox(height: 24.h,),
                 OutlinedButton(
                     onPressed: ()async{
-                      var user=await AuthService.signInWithGoogle();
-                      Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
-                      print(user.user?.displayName);
-                      print(user.user?.email);
+                      try {
+                        var userCredential = await FirebaseService.signInWithGoogle();
+                        User user = userCredential.user!;
 
 
+                        UserModel userModel = await FirebaseService.handleGoogleSignInUser(user);
+
+
+                        UserModel.currentUser = userModel;
+
+                        print(user.displayName);
+                        print(user.email);
+
+                        Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+                      } catch (error) {
+                        print('Google Sign-In error: $error');
+
+                      }
                     },
-
                  child:
                 Row(mainAxisAlignment: MainAxisAlignment.center,children: [
                   Image.asset(ImageAssets.googleIcon),
