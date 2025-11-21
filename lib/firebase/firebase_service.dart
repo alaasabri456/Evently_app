@@ -87,9 +87,9 @@ class FirebaseService {
   }
 
 
-  static   Stream<List<EventModel>> getEventsFromFireStoreRealTimeUpdate(BuildContext context,CategoryModel category)async*{
+  static   Stream<List<EventModel>> getEventsFromFireStoreRealTimeUpdate(BuildContext context,[CategoryModel? category])async*{
     CollectionReference<EventModel> eventsCollection =_getEventsCollection(context);
-    Stream<QuerySnapshot<EventModel>> querySnapshot=eventsCollection.where("categoryId", isEqualTo: category.categId=="0"?null:category.categId).orderBy("dateTime").snapshots();
+    Stream<QuerySnapshot<EventModel>> querySnapshot=eventsCollection.where("categoryId", isEqualTo: category?.categId=="0"?null:category?.categId).orderBy("dateTime").snapshots();
     Stream<List<EventModel>> events =querySnapshot.map((snapShot)=>snapShot.docs.map((documentSnapshot)=>documentSnapshot.data()).toList());
     //List<EventModel>events= querySnapshot.docs.map((documentSnapshot)=>documentSnapshot.data()).toList();
     yield* events;
@@ -122,6 +122,29 @@ class FirebaseService {
     List<EventModel> events=await getEventsFromFireStore(context);
    List<EventModel> favEvents= events.where((event)=>UserModel.currentUser!.favouriteEventsId.contains(event.id)).toList();
    return favEvents;
+  }
+  static Stream<List<EventModel>> getFavoriteEventsRealTimeUpdate(BuildContext context)async* {
+    CollectionReference<EventModel> eventsCollection = _getEventsCollection(context);
+
+
+    List<String> favoriteEventIds = UserModel.currentUser!.favouriteEventsId;
+
+    if (favoriteEventIds.isEmpty) {
+      yield* Stream.value([]);
+    }
+
+
+    Stream<QuerySnapshot<EventModel>> querySnapshot = eventsCollection
+        .where("id", whereIn: favoriteEventIds).snapshots();
+
+    Stream<List<EventModel>> events=querySnapshot.map((snapshot) =>
+        snapshot.docs.map((doc) => doc.data()).toList());
+    yield* events;
+  }
+
+  static Stream<UserModel?> getUserStream(String uid) {
+    CollectionReference<UserModel> usersCollection = _getUsersCollection();
+    return usersCollection.doc(uid).snapshots().map((snapshot) => snapshot.data());
   }
 
 }

@@ -80,7 +80,7 @@ class _EventItemState extends State<EventItem> {
 
   void _markEvent() async{
     if(isFavorite){
-      FirebaseService.removeEventFromFavourite(widget.event);
+     await FirebaseService.removeEventFromFavourite(widget.event);
       isFavorite=false;
     }
     else {
