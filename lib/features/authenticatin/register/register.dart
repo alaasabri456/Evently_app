@@ -11,8 +11,11 @@ import 'package:evently/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/widgets/custom_switch.dart';
 import '../../../core/widgets/custom_text_form_field.dart';
+import '../../../providers/language_provider.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -49,6 +52,8 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    var languageProvider=Provider.of<LanguageProvider>(context);
+    String selectedLanguage=languageProvider.currentLanguage;
     AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return Scaffold(
       resizeToAvoidBottomInset: false,//keyboard
@@ -83,7 +88,16 @@ class _RegisterState extends State<Register> {
               ],
             
               ),
-            
+              SizedBox(height: 24.h,),
+              CustomSwitch(isTheme: false,iconImg1: ImageAssets.english, iconImg2: ImageAssets.arabic, currentValue: selectedLanguage, values: ["en", "ar"], onChanged: (value){
+                selectedLanguage=value;
+                setState(() {
+
+                });
+                languageProvider.changeAppLanguage(selectedLanguage);
+              })
+
+
             ]
             
             ),

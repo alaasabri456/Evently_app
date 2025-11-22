@@ -14,7 +14,9 @@ import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
  await PrefsManager.init();
+  final onboardingCompleted =PrefsManager.prefs.getBool('onboardingCompleted') ?? false;
   await Firebase.initializeApp();
  if(FirebaseAuth.instance.currentUser!=null){
    UserModel.currentUser=await FirebaseService.getUserFromFireStore(FirebaseAuth.instance.currentUser!.uid);
@@ -23,11 +25,13 @@ Future<void> main() async {
 
   runApp(
    MultiProvider(providers: [ChangeNotifierProvider(create:(context) =>ThemeProvider()),ChangeNotifierProvider(create:(context) =>LanguageProvider())],
-   child: const MyApp()));
+   child:  MyApp(onboardingCompleted: onboardingCompleted)));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool onboardingCompleted;
+
+  const MyApp({super.key,required this.onboardingCompleted});
 
 
   @override
@@ -41,8 +45,10 @@ class MyApp extends StatelessWidget {
       builder: (context, child) =>  MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute:RoutesManager.router,
-      initialRoute: FirebaseAuth.instance.currentUser==null?RoutesManager.login:RoutesManager.mainLayout,
-        //initialRoute: RoutesManager.login,
+          initialRoute: FirebaseAuth.instance.currentUser == null
+             ? (onboardingCompleted ? RoutesManager.splashScreen: RoutesManager.startScreen)
+              : RoutesManager.splashScreen,
+        //initialRoute: RoutesManager.splashScreen,
         theme: ThemeManager.light,
         darkTheme:ThemeManager.dark ,
         themeMode: themeProvider.currentTheme,

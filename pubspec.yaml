@@ -46,6 +46,9 @@ dependencies:
   provider: ^6.1.5+1
   shared_preferences: ^2.5.3
   cloud_firestore: ^6.1.0
+  introduction_screen: ^4.0.0
+  animated_toggle_switch: ^0.8.5
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:

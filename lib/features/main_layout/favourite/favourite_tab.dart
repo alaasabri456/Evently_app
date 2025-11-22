@@ -3,11 +3,13 @@ import 'package:evently/firebase/firebase_service.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/widgets/event_item.dart';
 
 import '../../../models/event_model.dart';
 import '../../../models/user_model.dart';
+import '../../../providers/theme_provider.dart';
 
 class FavouriteTab extends StatefulWidget {
   const FavouriteTab({super.key});
@@ -26,12 +28,13 @@ class _FavouriteTabState extends State<FavouriteTab> {
   }
   @override
   Widget build(BuildContext context) {
+    var themeProvider=Provider.of<ThemeProvider>(context);
     AppLocalizations appLocalizations=AppLocalizations.of(context)!;
     return SafeArea(
       child: Column(
         children: [   Padding(
       padding:REdgeInsets.symmetric(horizontal: 16.0),
-      child: TextField(
+      child: TextField(style: TextStyle(color: themeProvider.isDark? ColorsManager.ofWhite:ColorsManager.blue),
         onChanged: (value) {
          searchText=value;
          setState(() {
@@ -39,6 +42,7 @@ class _FavouriteTabState extends State<FavouriteTab> {
          });
         },
           decoration: InputDecoration(
+
               prefixIcon:Icon(Icons.search,color: ColorsManager.blue,),
         hintText:appLocalizations.search_for_event,
         hintStyle:TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, color: ColorsManager.blue),

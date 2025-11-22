@@ -12,5 +12,15 @@ abstract class ImageAssets{
   static const String bookClub="$base/book_club.png";
   static const String exhibition="$base/exhibition.png";
   static const String profile="$base/profile.png";
+  static const String onboardingLogo="$base/onboarding_logo.png";
+  static const String onboarding1="$base/onboarding1.png";
+  static const String onboarding2="$base/onboarding2.png";
+  static const String onboarding3="$base/onboarding3.png";
+  static const String onboarding4="$base/onboarding4.png";
+  static const String english="$base/en.png";
+  static const String arabic="$base/EG.png";
+  static const String startDark="$base/start_dark.png";
+
+
 
 }

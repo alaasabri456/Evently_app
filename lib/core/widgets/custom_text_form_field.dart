@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/theme_provider.dart';
 import '../resources/colors_manager.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -17,8 +19,12 @@ final String? Function(String?)? validator;
 final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
+    var themeProvider=Provider.of<ThemeProvider>(context);
+
     return  TextFormField(
-      maxLines: maxLiens,
+      style: TextStyle(color: themeProvider.isDark? ColorsManager.ofWhite:ColorsManager.black),
+
+          maxLines: maxLiens,
       controller:controller,validator:validator,obscureText:isSecure,decoration: InputDecoration(
         labelText: labelText,
       prefixIcon:prefixIcon,

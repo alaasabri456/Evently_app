@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import '../../../core/routes_manager/routes_manager.dart';
 
 
+import '../../../core/widgets/custom_switch.dart';
+import '../../../providers/language_provider.dart';
 import '../../../providers/theme_provider.dart';
 
 
@@ -50,6 +52,8 @@ late TextEditingController _passwordController;
   Widget build(BuildContext context) {
   var themeProvider=Provider.of<ThemeProvider>(context);
   AppLocalizations appLocalizations=AppLocalizations.of(context)!;
+  var languageProvider=Provider.of<LanguageProvider>(context);
+  String selectedLanguage=languageProvider.currentLanguage;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -122,6 +126,15 @@ late TextEditingController _passwordController;
                     fontWeight: FontWeight.w500,
                     color: ColorsManager.blue,),),
                 ],)),
+
+                SizedBox(height: 24.h,),
+                CustomSwitch(isTheme:false,iconImg1: ImageAssets.english, iconImg2: ImageAssets.arabic, currentValue: selectedLanguage, values: ["en", "ar"], onChanged: (value){
+                  selectedLanguage=value;
+                  setState(() {
+
+                  });
+                  languageProvider.changeAppLanguage(selectedLanguage);
+                })
               ],
             ),
           ),
