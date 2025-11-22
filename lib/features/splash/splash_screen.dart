@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Center(child: Image.asset(ImageAssets.logo))
           .animate(
-        onComplete: (controlle) {
+        onComplete: (controller) {
           FirebaseAuth.instance.currentUser == null?
           Navigator.pushReplacementNamed(context, RoutesManager.login):Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
           },)
